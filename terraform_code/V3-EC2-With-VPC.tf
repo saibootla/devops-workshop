@@ -11,6 +11,10 @@ resource "aws_instance" "server" {
   // security_groups = [ "demo-sg" ]
   vpc_security_group_ids = [aws_security_group.demo-sg.id]
   subnet_id              = aws_subnet.ttrend-subnet-01.id
+  for_each = toset(["jenkins-master", "jenkins-slave", "ansible-server"])
+  tags = {
+    Name = "${each.key}"
+  }
 }
 
 // Creating Security Group
